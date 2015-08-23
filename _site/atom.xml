@@ -4,7 +4,7 @@
  <title>Codemageddon</title>
  <link href="http://jakeokt.github.io/atom.xml" rel="self"/>
  <link href="http://jakeokt.github.io/"/>
- <updated>2015-07-30T17:57:26-07:00</updated>
+ <updated>2015-08-22T22:44:12-07:00</updated>
  <id>http://jakeokt.github.io</id>
  <author>
    <name>Jake Oktaw</name>
@@ -18,25 +18,36 @@
    <updated>2015-07-03T00:00:00-07:00</updated>
    <id>http://jakeokt.github.io/2015/07/03/configuring-ctrlp</id>
    <content type="html">&lt;p&gt;&lt;a href=&quot;https://github.com/ctrlpvim/ctrlp.vim&quot;&gt;CtrlP.vim&lt;/a&gt; is a fuzzy path, file finder plugin for the Vim editor.&lt;br /&gt;
-I recently spent some time digging into the configuration options for Ctrl-P to make it perform better on my work systems.&lt;/p&gt;
+I recently spent some time digging into the configuration options for Ctrl-P to make it perform better in my development environment. I switch between a fast Ubuntu desktop and slow Macbook Air. Some of this is driven as a attempt to iron out quirks and performance issues on the Mac. All configuration is entered into a &lt;code&gt;~/.vimrc&lt;/code&gt;&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-coderay&quot;&gt;&lt;div class=&quot;CodeRay&quot;&gt;
-  &lt;div class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n1&quot; name=&quot;n1&quot;&gt;1&lt;/a&gt;&lt;/span&gt;&lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#710&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span style=&quot;color:#D20&quot;&gt; ctrlp vim plug in override options&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n2&quot; name=&quot;n2&quot;&gt;2&lt;/a&gt;&lt;/span&gt;&lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#D20&quot;&gt;&lt;/span&gt;&lt;span style=&quot;color:#710&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; use find &lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;for&lt;/span&gt; building file index instead of vim globbing (buggy &lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;in&lt;/span&gt; &lt;span style=&quot;color:#036;font-weight:bold&quot;&gt;OSX&lt;/span&gt;)
-&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n3&quot; name=&quot;n3&quot;&gt;3&lt;/a&gt;&lt;/span&gt;let &lt;span style=&quot;color:#606&quot;&gt;g&lt;/span&gt;:ctrlp_user_command = &lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#710&quot;&gt;&#39;&lt;/span&gt;&lt;span style=&quot;color:#D20&quot;&gt;find %s -type f&lt;/span&gt;&lt;span style=&quot;color:#710&quot;&gt;&#39;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n4&quot; name=&quot;n4&quot;&gt;4&lt;/a&gt;&lt;/span&gt;&lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#710&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span style=&quot;color:#D20&quot;&gt; increase the default max size of results&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n5&quot; name=&quot;n5&quot;&gt;5&lt;/a&gt;&lt;/span&gt;&lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#D20&quot;&gt;let g:ctrlp_match_window = &#39;max:35&#39;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n6&quot; name=&quot;n6&quot;&gt;6&lt;/a&gt;&lt;/span&gt;&lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#D20&quot;&gt;&lt;/span&gt;&lt;span style=&quot;color:#710&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; enable cross session caching
-&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n7&quot; name=&quot;n7&quot;&gt;7&lt;/a&gt;&lt;/span&gt;let &lt;span style=&quot;color:#606&quot;&gt;g&lt;/span&gt;:ctrlp_clear_cache_on_exit = &lt;span style=&quot;color:#00D&quot;&gt;0&lt;/span&gt;
-&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n8&quot; name=&quot;n8&quot;&gt;8&lt;/a&gt;&lt;/span&gt;&lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#710&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span style=&quot;color:#D20&quot;&gt; max number fo files to scan&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&quot;line-numbers&quot;&gt; &lt;a href=&quot;#n9&quot; name=&quot;n9&quot;&gt;9&lt;/a&gt;&lt;/span&gt;&lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#D20&quot;&gt;let g:ctrlp_max_files = 100000&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&quot;line-numbers&quot;&gt;&lt;strong&gt;&lt;a href=&quot;#n10&quot; name=&quot;n10&quot;&gt;10&lt;/a&gt;&lt;/strong&gt;&lt;/span&gt;&lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#D20&quot;&gt;let g:ctrlp_max_depth = 100&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n11&quot; name=&quot;n11&quot;&gt;11&lt;/a&gt;&lt;/span&gt;&lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#D20&quot;&gt;&lt;/span&gt;&lt;span style=&quot;color:#710&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; default mode to open &lt;span style=&quot;color:#036;font-weight:bold&quot;&gt;CtrlP&lt;/span&gt; &lt;span style=&quot;color:#080;font-weight:bold&quot;&gt;in&lt;/span&gt;
-&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n12&quot; name=&quot;n12&quot;&gt;12&lt;/a&gt;&lt;/span&gt;let &lt;span style=&quot;color:#606&quot;&gt;g&lt;/span&gt;:ctrlp_cmd = &lt;span style=&quot;background-color:hsla(0,100%,50%,0.05)&quot;&gt;&lt;span style=&quot;color:#710&quot;&gt;&#39;&lt;/span&gt;&lt;span style=&quot;color:#D20&quot;&gt;CtrlPMixed&lt;/span&gt;&lt;span style=&quot;color:#710&quot;&gt;&#39;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&quot;line-numbers&quot;&gt;&lt;a href=&quot;#n13&quot; name=&quot;n13&quot;&gt;13&lt;/a&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
+&lt;p&gt;By default CtrlP uses Vim’s file path globbing to identify files to index. This can be a little buggy and slow in a large directory tree.  We can modify the config to use a different routine to find files. Here it’s using shell &lt;code&gt;find&lt;/code&gt; with some additional options to exclude paths matching certain patterns.&lt;br /&gt;
+  -  exclude paths with target/   usually compilation artifacts in java or scala&lt;br /&gt;
+  -  exclude the .git directory&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;let g:ctrlp_user_command = &#39;find %s -type f -not -path &quot;*target/*&quot; -not -path &quot;*\.git*&quot;&#39;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;By default only 10 matching results are shown. We can increase this to a larger amount depending on window size&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;let g:ctrlp_match_window = &#39;max:35&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;CtrlP usually scans the current directory on the first time you open the pane in a fresh vim session.  Vim is single threaded so this creates a noticeable pause when starting Ctrl-P for the first time in a large project directory. Here I turn on cross-session caching, allowing CtrlP to save/load its index to/from a cache file. This enables faster startup, at the cost of the index sometimes getting stale. Hitting &lt;code&gt;&amp;lt;F5&amp;gt;&lt;/code&gt; while the CtrlP pane is open forces a rebuild of the index.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;let g:ctrlp_clear_cache_on_exit = 0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Let’s bump up some low defaults for scan maximums&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&quot; max number fo files to scan
+let g:ctrlp_max_files = 100000
+let g:ctrlp_max_depth = 100
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;CtrlP can operate in 3 distinct modes, or a some combination of them. File, Buffer, and MRU.  File mode builds an search index on the directory tree starting from the current working directory.  Buffer, I haven’t used much but assume, it only indexes the files that are currently open in Vim buffers.  MRU (Most Recently Used) includes recently opened files.   Here I enable Mixed mode which is a superset of all three individual modes.  I do find that MRU mode encourages some confusion if you’re constantly switching between projects that have many identically named files. An example is searching for something generic like &lt;code&gt;Build.scala&lt;/code&gt; or &lt;code&gt;Gemfile&lt;/code&gt;. The top result with MRU mode may be a file in another directory/project.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;let g:ctrlp_cmd = &#39;CtrlPMixed&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
 </content>
  </entry>
  

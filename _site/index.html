@@ -11,7 +11,7 @@
 
   <title>
     
-      Codemageddon &middot; musings on code, software engineering, distributed systems, technorabble ...
+      Codemageddon &middot; musings on software engineering, distributed systems, technobabble
     
   </title>
 
@@ -86,7 +86,7 @@
         <div class="container">
           <h3 class="masthead-title">
             <a href="/" title="Home">Codemageddon</a>
-            <small>musings on code, software engineering, distributed systems, technorabble ...</small>
+            <small>musings on software engineering, distributed systems, technobabble</small>
           </h3>
         </div>
       </div>
@@ -104,25 +104,36 @@
     <span class="post-date">03 Jul 2015</span>
 
     <p><a href="https://github.com/ctrlpvim/ctrlp.vim">CtrlP.vim</a> is a fuzzy path, file finder plugin for the Vim editor.<br />
-I recently spent some time digging into the configuration options for Ctrl-P to make it perform better on my work systems.</p>
+I recently spent some time digging into the configuration options for Ctrl-P to make it perform better in my development environment. I switch between a fast Ubuntu desktop and slow Macbook Air. Some of this is driven as a attempt to iron out quirks and performance issues on the Mac. All configuration is entered into a <code>~/.vimrc</code></p>
 
-<div class="highlighter-coderay"><div class="CodeRay">
-  <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span><span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20"> ctrlp vim plug in override options</span></span>
-<span class="line-numbers"> <a href="#n2" name="n2">2</a></span><span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20"></span><span style="color:#710">&quot;</span></span> use find <span style="color:#080;font-weight:bold">for</span> building file index instead of vim globbing (buggy <span style="color:#080;font-weight:bold">in</span> <span style="color:#036;font-weight:bold">OSX</span>)
-<span class="line-numbers"> <a href="#n3" name="n3">3</a></span>let <span style="color:#606">g</span>:ctrlp_user_command = <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">find %s -type f</span><span style="color:#710">'</span></span>
-<span class="line-numbers"> <a href="#n4" name="n4">4</a></span><span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20"> increase the default max size of results</span></span>
-<span class="line-numbers"> <a href="#n5" name="n5">5</a></span><span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">let g:ctrlp_match_window = 'max:35'</span></span>
-<span class="line-numbers"> <a href="#n6" name="n6">6</a></span><span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20"></span><span style="color:#710">&quot;</span></span> enable cross session caching
-<span class="line-numbers"> <a href="#n7" name="n7">7</a></span>let <span style="color:#606">g</span>:ctrlp_clear_cache_on_exit = <span style="color:#00D">0</span>
-<span class="line-numbers"> <a href="#n8" name="n8">8</a></span><span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20"> max number fo files to scan</span></span>
-<span class="line-numbers"> <a href="#n9" name="n9">9</a></span><span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">let g:ctrlp_max_files = 100000</span></span>
-<span class="line-numbers"><strong><a href="#n10" name="n10">10</a></strong></span><span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">let g:ctrlp_max_depth = 100</span></span>
-<span class="line-numbers"><a href="#n11" name="n11">11</a></span><span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20"></span><span style="color:#710">&quot;</span></span> default mode to open <span style="color:#036;font-weight:bold">CtrlP</span> <span style="color:#080;font-weight:bold">in</span>
-<span class="line-numbers"><a href="#n12" name="n12">12</a></span>let <span style="color:#606">g</span>:ctrlp_cmd = <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">CtrlPMixed</span><span style="color:#710">'</span></span>
-<span class="line-numbers"><a href="#n13" name="n13">13</a></span>
-</pre></div>
-</div>
-</div>
+<p>By default CtrlP uses Vim’s file path globbing to identify files to index. This can be a little buggy and slow in a large directory tree.  We can modify the config to use a different routine to find files. Here it’s using shell <code>find</code> with some additional options to exclude paths matching certain patterns.<br />
+  -  exclude paths with target/   usually compilation artifacts in java or scala<br />
+  -  exclude the .git directory</p>
+
+<pre><code>let g:ctrlp_user_command = 'find %s -type f -not -path "*target/*" -not -path "*\.git*"'
+</code></pre>
+<p>By default only 10 matching results are shown. We can increase this to a larger amount depending on window size</p>
+
+<pre><code>let g:ctrlp_match_window = 'max:35'
+</code></pre>
+
+<p>CtrlP usually scans the current directory on the first time you open the pane in a fresh vim session.  Vim is single threaded so this creates a noticeable pause when starting Ctrl-P for the first time in a large project directory. Here I turn on cross-session caching, allowing CtrlP to save/load its index to/from a cache file. This enables faster startup, at the cost of the index sometimes getting stale. Hitting <code>&lt;F5&gt;</code> while the CtrlP pane is open forces a rebuild of the index.</p>
+
+<pre><code>let g:ctrlp_clear_cache_on_exit = 0
+</code></pre>
+
+<p>Let’s bump up some low defaults for scan maximums</p>
+
+<pre><code>" max number fo files to scan
+let g:ctrlp_max_files = 100000
+let g:ctrlp_max_depth = 100
+</code></pre>
+
+<p>CtrlP can operate in 3 distinct modes, or a some combination of them. File, Buffer, and MRU.  File mode builds an search index on the directory tree starting from the current working directory.  Buffer, I haven’t used much but assume, it only indexes the files that are currently open in Vim buffers.  MRU (Most Recently Used) includes recently opened files.   Here I enable Mixed mode which is a superset of all three individual modes.  I do find that MRU mode encourages some confusion if you’re constantly switching between projects that have many identically named files. An example is searching for something generic like <code>Build.scala</code> or <code>Gemfile</code>. The top result with MRU mode may be a file in another directory/project.</p>
+
+<pre><code>let g:ctrlp_cmd = 'CtrlPMixed'
+</code></pre>
+
 
   </div>
   
